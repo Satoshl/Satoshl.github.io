@@ -1,0 +1,157 @@
+<html>
+<head>
+	
+	<title>密码学概述</title>
+	<meta name="keywords" content="" />
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css" />
+    
+        <script src="/js/util.js"></script>
+        <script>
+            if(isMobile()) {
+                loadjscssfile('../css/mobile.css', 'css');
+            } else {
+                loadjscssfile('../css/desktop.css', 'css');
+            }
+        </script> 
+    
+
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
+
+    
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3"/>
+    
+
+</head>
+
+<body>
+
+
+<h2 class="title">密码学概述</h2>
+<!---
+<div style="text-align:center;margin-top: -10px;">
+<div class="article-category">
+发表于2017年12月11日
+
+
+
+
+ </div>
+--->
+</div>
+
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hash函数"><span class="toc-text">Hash函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Hash定义"><span class="toc-text">Hash定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hash函数的作用"><span class="toc-text">Hash函数的作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#比较流行的Hash算法"><span class="toc-text">比较流行的Hash算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hash算法的性能"><span class="toc-text">Hash算法的性能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加解密算法"><span class="toc-text">加解密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#对称加密算法"><span class="toc-text">对称加密算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#非对称加密"><span class="toc-text">非对称加密</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数字证书"><span class="toc-text">数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PKI体系"><span class="toc-text">PKI体系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Merkle树-Hash树"><span class="toc-text">Merkle树(Hash树)</span></a></li></ol>
+<h3 id="Hash函数"><a href="#Hash函数" class="headerlink" title="Hash函数"></a>Hash函数</h3><h4 id="Hash定义"><a href="#Hash定义" class="headerlink" title="Hash定义"></a>Hash定义</h4><p>我们可以用如下的公式来简要概括:  </p>
+<blockquote>
+<p>function(key) = value  </p>
+</blockquote>
+<p>如上所示,Hash算法其实就是一个值变换的过程——它将任意长度的输入(Key,一般为二进制)映射为较短的固定长度的输出(Value)。对于不同的输入,其输出一般也不同,这里“输出(Hash值)”又可称为指纹(fingerprint)、摘要(digest),由此Hash算法也称“摘要加密算法”。 </p>
+<p>Hash函数有如下几个特点:  </p>
+<ul>
+<li>对于同样的输入Key总是可以得到同样的摘要信息  </li>
+<li>原始信息稍微有点变动都会使输出结果产生很大的变化</li>
+<li>在有限的时间内基本无法从Hash值(摘要信息)逆向推出原始信息</li>
+<li>很难找到两个不同的输入Key,使它们的Hash值一致(发生冲突)  </li>
+</ul>
+<p>注:Hash函数会有一定发生冲突的概率。如果在给定一个原始信息的前提下,无法找到碰撞的另一个原始信息,则称为“弱抗碰撞性”;如果无法找到任意两个原始信息发生碰撞,则称算法具有“强抗碰撞性”。  </p>
+<h4 id="Hash函数的作用"><a href="#Hash函数的作用" class="headerlink" title="Hash函数的作用"></a>Hash函数的作用</h4><p>从上面的定义可以归纳出Hash函数有如下几个作用:  </p>
+<ul>
+<li>简化原始信息<br>如上,Hash后原始信息的长度变为了固定长度  </li>
+<li>隐藏了原始的信息<br>我们看到的永远是Hash值,原始信息无法看到  </li>
+<li>验证某些信息的正确性<br>比如我们知道了Hash值,但我们不知道原始信息,这时候就可以从Hash值是否一致来判断原始信息的真伪性(排除有冲突的可能性)  </li>
+</ul>
+<h4 id="比较流行的Hash算法"><a href="#比较流行的Hash算法" class="headerlink" title="比较流行的Hash算法"></a>比较流行的Hash算法</h4><p>常见的Hash算法有MD4、MD5、SHA-1和SHA-2。  </p>
+<p>MD是Message Digest的缩写,MD系列的算法主要包括MD4、MD5,该系列算法的Hash输出都是128位。目前,MD4已经被证明不够安全,因而出现了基于MD4的改进版MD5。MD5相较于MD4更加复杂,并且计算速度稍微慢一些,安全性也要强一些,不过目前MD5也已被证明不具备“强抗碰撞性”。  </p>
+<p>SHA(Secure Hash Algorithm)是一个Hash函数族。SHA-1算法于1995年面世,该算法的Hash输出长度为160位,因此抗穷举性更好。SHA-1算法的原理同MD4类似,所以该算法也不具备强抗碰撞性。为此,SHA-2系列的Hash算法逐渐面世,主要包括SHA-224、SHA-256、SHA-384、SHA-512算法。目前MD5和SHA-1都已经被证明其安全性不足于应用于商业场景上。  </p>
+<h4 id="Hash算法的性能"><a href="#Hash算法的性能" class="headerlink" title="Hash算法的性能"></a>Hash算法的性能</h4><p>一般Hash算法都是算力敏感型,这说明计算资源是瓶颈,那么主频越高的CPU,其Hash速度也是越快。不过也有些Hash算法并非算力敏感型的,比如scrypt,它需要大量的内存资源,某个节点并不能通过简单的增加CPU来获得Hash性能的提升。  </p>
+<h3 id="加解密算法"><a href="#加解密算法" class="headerlink" title="加解密算法"></a>加解密算法</h3><p>所谓加解密算法分为加密和解密两个过程。发送端使用加密算法和加密密钥将明文加密成密文,接受端接收到密文后使用解密算法和解密密钥对密文进行解密从而得到信息。一般来讲,密钥长度越长,加密的强度也越大。<br>根据加解密密钥是否相同,可分为对称加密(symmetric cryptography)和非对称加密(asymmetric cryptography)。下面用一张表格来概述这两种算法的异同。  </p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>特点</th>
+<th>缺陷</th>
+<th>代表算法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>对称加密</td>
+<td>加密解密密钥相同</td>
+<td>密钥易泄漏</td>
+<td>DES、3DES、AES          </td>
+</tr>
+<tr>
+<td>非对称加密</td>
+<td>加解密密钥不同,基本不相关</td>
+<td>加解密计算效率偏低</td>
+<td>RSA、椭圆曲线算法、EIGamal</td>
+</tr>
+</tbody>
+</table>
+<h4 id="对称加密算法"><a href="#对称加密算法" class="headerlink" title="对称加密算法"></a>对称加密算法</h4><p>对称加密就是加密解密的密钥是相同的,加解密方持有同样的密钥,一旦密钥泄漏则可能会发生泄密的情况。常见的算法如上表格。  </p>
+<ul>
+<li>DES(Data Encryption standard):将64位明文加密为64位密文,其密钥长度为56位+8位校验,目前很容易被暴力破解。  </li>
+<li>3DES:对明文进行三次DES算法加密,显然该种加密过程加密强度高于DES,但是现今也被认为不太安全。  </li>
+<li>AES(Advanced Encryption Standard):取代DES称为新的对称加密标准,由于采用分组加密算法,所以处理速度很快,现今尚无有效的破解手段。  </li>
+</ul>
+<h4 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h4><p>非对称加密是密码学上最伟大的发明之一,它解决了因对称加密而需提前分发密钥从而可能导致密钥泄漏的问题。非对称加密的加密密钥和解密密钥是不同的,分为公钥和私钥,公钥一般是公开的,每个人都可以获取,而私钥一般个人自己持有,不公开。公钥加密的内容,只有使用对应的私钥可以解密;同理,私钥加密的内容,只可以使用对应的公钥进行解密。<br>举个例子, 比如有两个人A和B,他们各自持有一对公私钥,A想给B发送消息时,他需要使用B给他的公钥将文件加密,待B收到密文后,就能用自己对应的私钥解密。<br>非对称加密常见的算法有如下几个:  </p>
+<ul>
+<li>RSA:比较经典的算法,由Ron Rivest、Adi Shamir、Leonard Adleman于1978年提出,该算法的原理是利用了对大数进行质因子分解困难的特性,RSA算法目前已经被认为不够安全。  </li>
+<li>椭圆曲线算法(ECC):该算法的原理是利用了椭圆曲线上特定点进行特殊乘法逆运算难以计算的特性,目前此算法因为安全性比较高而备受关注。  </li>
+<li>EIGamal:该算法利用了模运算下求离散对数困难的特性,现被应用在PGP等安全工具中。  </li>
+</ul>
+<h3 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h3><p>对于非对称加密算法而言,其公钥是公开的,并且在发送的过程中可能存在原始公钥被人替换,换句话说,怎么确保收到的公钥就是来自于发送方的公钥??这时候就需要用到数字证书。<br>数字证书就是一个类似证书一样的东西,用来证明信息的合法性,由证书认证机构(CA)来签发。数字证书的内容包含很多东西,其中最重要信息包括<strong>签发的公开密钥</strong>、<strong>CA数字签名</strong>。<br>如果一个公钥是合法的,说明这个公钥通过了带CA数字签名的数字证书的认证,那么如何证明某个CA数字签名是否合法？一般来讲,CA数字签名的合法性是通过CA的数字证书来证明的。主流的操作系统和浏览器里都会提前预置一些合法的CA数字证书,故而基于这些证书认证的数字签名都会被认定是合法的。  </p>
+<h4 id="PKI体系"><a href="#PKI体系" class="headerlink" title="PKI体系"></a>PKI体系</h4><p>PKI的全称是Public Key Infrastructure,该机制主要是用于解决如何管理和分发数字证书的问题。PKI是建立在公私钥基础上实现安全可靠传递消息和身份认证的一个通用框架，一个实现了PKI的平台可以安全可靠地管理网络中用户的密钥和证书。一般情况下,PKI至少包括如下几个组件:  </p>
+<ul>
+<li>CA(Certificaion Authority):负责证书的颁发和作废,接收来自RA的请求,是比较核心的部分。  </li>
+<li>RA(Registration Authority):对用户的身份进行验证,校验数据的合法性,负责登记、审核,通过后发放CA证书。  </li>
+<li>证书数据库:主要用于存放证书  </li>
+</ul>
+<p>常见的流程为用户通过RA登记申请证书,CA完成证书的生成,并颁发给用户。当用户需要撤销证书时,则向CA发出申请。  </p>
+<h3 id="Merkle树-Hash树"><a href="#Merkle树-Hash树" class="headerlink" title="Merkle树(Hash树)"></a>Merkle树(Hash树)</h3><p>Merkle树,也称哈希树,是一棵存储Hash值的树。Merkle树的叶子节点是数据块(文件或者文件的集合)的Hash值。非叶节点是对应子节点串联字符串的hash。<br>如下图所示,是一棵比较典型的默克尔树,<br><img src="https://ws1.sinaimg.cn/mw690/d41b5259gy1fm71pnxe6mj20we0iidhx.jpg" alt=""><br>最底层是数据块的hash值,越往上走,非叶子节点的值是该节点底下孩子节点Hash值相拼接之后的Hash值,如此逐层往上,直至生成根节点。</p>
+<p>一棵Merkle树有如下几个特征:  </p>
+<ul>
+<li>默克尔树一种树,大多数情况下是二叉树,也有可能是多叉树,它具有树结构的特点;  </li>
+<li>Merkle树的叶子节点的值是某数据集合的单元数据或者该单元数据的Hash值;</li>
+<li>底层数据的任何变动,都会传递到其父亲节点,直至根节点;  </li>
+</ul>
+<p>默克尔树典型的应用场景:</p>
+<ul>
+<li>能够快速的比较大量数据:如果有两颗默克尔树的树根相同,则意味着所代表的数据必然相同。</li>
+<li>快速定位修改:如上图中的L2数据被修改,则会影响到Hash0-1,Hash0以及TopHash,因此只要沿着TopHash–&gt;Hash0–&gt;Hash0-1–&gt;L2就能定位到发生改变L2数据块。</li>
+<li>零知识证明:这里涉及到一个数学问题,暂不叙述(Ps:所谓零知识证明指证明者在不向验证者提供任何有用信息的前提下,使验证者相信某个论断是正确的,比如阿里巴巴与四十大盗的零知识证明)。</li>
+</ul>
+<p>目前在比特币和以太坊这两个基于区块链的应用中均用到了Merkle树,这个将在以后的文章中慢慢整理。</p>
+
+
+<!--<a href="http://yoursite.com/2017/12/11/密码学概述/#disqus_thread" class="article-comment-link">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = ''; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+-->
+<div style="display:none">
+<script src="http://s4.cnzz.com/stat.php?id=&web_id=" language="JavaScript"></script>script>
+</div>
+
+
+
+
+
+
+</body>
+</html>
