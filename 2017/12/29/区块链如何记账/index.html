@@ -1,0 +1,124 @@
+<html>
+<head>
+	
+	<title>区块链如何记账</title>
+	<meta name="keywords" content="" />
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css" />
+    
+        <script src="/js/util.js"></script>
+        <script>
+            if(isMobile()) {
+                loadjscssfile('../css/mobile.css', 'css');
+            } else {
+                loadjscssfile('../css/desktop.css', 'css');
+            }
+        </script> 
+    
+
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
+
+    
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3"/>
+    
+
+</head>
+
+<body>
+
+
+<h2 class="title">区块链如何记账</h2>
+<!---
+<div style="text-align:center;margin-top: -10px;">
+<div class="article-category">
+发表于2017年12月29日
+
+
+
+
+ </div>
+--->
+</div>
+
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#区块链记账方法"><span class="toc-text">区块链记账方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#记账-挖矿-过程"><span class="toc-text">记账(挖矿)过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#挖矿"><span class="toc-text">挖矿</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工作量证明-PoW"><span class="toc-text">工作量证明(PoW)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#过程概述"><span class="toc-text">过程概述</span></a></li></ol></li></ol>
+<h3 id="区块链记账方法"><a href="#区块链记账方法" class="headerlink" title="区块链记账方法"></a>区块链记账方法</h3><p>我们假定有如下一个账页，该页上有这样几笔交易记录:  </p>
+<table>
+<thead>
+<tr>
+<th>账号名</th>
+<th>入账</th>
+<th>出账</th>
+<th>余额 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  A</td>
+<td>500</td>
+<td>300</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>  B</td>
+<td>20</td>
+<td>100</td>
+<td>700      </td>
+</tr>
+</tbody>
+</table>
+<p>记账时间:20XX-XX-XX XX:XX:XX   </p>
+<p>区块链会把如上账页信息(包含账页号、交易记录、记账时间)整合并作为Hash运算的初始值,得到一个Hash值,可用如下Hash函数式表示:  </p>
+<p><code>Hash(账页号+交易记录+记账时间)＝3248932HYGGJKNBVF</code>  </p>
+<p>上面公式中所得到的<strong>3248932HYGGJKNBVF</strong>就是第一个区块的Hash值,再连同之前的账页信息,便构成了第一个区块。<br>区块链每隔一定的时间就会记账,每一次记账就会生成一个新的区块。比如基于比特币的区块链系统每隔10分钟左右记一次账,也即10分钟左右就会有一个新的区块生成。<br>新生成的区块会把上一个区块的Hash值连同新的账页信息整合进行Hash运算，即：  </p>
+<p><code>Hash(上一个hash值+新账本号+该账本内交易记录+新记账时间)＝9439SEX</code>  </p>
+<p>按照上述方法，除了第一个区块外，后继新生成的区块不仅仅包含了新记录的账页信息，还间接包含了前一个区块的相关信息。如此，将这些区块整合在一起就构成了<strong>区块链</strong>。根据Hash函数的特点我们便可以知道这样所构成的区块链账本特别容易进行验证(只需要验证最后一个区块的Hash值就相当于对整个区块链账本进行了验证)并且无法篡改(某个区块的某个交易信息发生一点微小的改动都会导致其Hash值发生改变，进而后续所有Hash结果都会发生改变，这样便无法通过验证)。<br>另外区块链中记账是有成本的，并且所有的节点都会竞争记账，所以有必要了解下这个记账的过程。</p>
+<h3 id="记账-挖矿-过程"><a href="#记账-挖矿-过程" class="headerlink" title="记账(挖矿)过程"></a>记账(挖矿)过程</h3><p>上面一部分谈到区块链记账实际上就是将账本交易信息、时间戳、上一个Hash值(第一个区块除外)等信息进行Hash运算并存储起来的这么一个过程。既然涉及到了Hash计算和存储，那么肯定需要消耗计算机的相关资源，或者可以说记账这个过程需要一定的成本代价，那为什么众多节点要竞争记账呢？因为参与记账的节点可以获得系统给的“奖励”。比如在比特币系统里，完成记账的节点可以获得系统给予的一定数量比特币(Ps:现在是12.5个比特币，按照目前10W左右的比特币价格，差不多将近120W左右)的奖励，这个奖励也就是新的比特币产生的过程，用通俗的话语来讲就是“挖矿”。  </p>
+<h4 id="挖矿"><a href="#挖矿" class="headerlink" title="挖矿"></a>挖矿</h4><p>所谓“挖矿”，事实上就是记账。因为有报酬，所以大家都会争夺记账的权利。可是如果大家一起记账，可能会导致账目不一致的情况，这时候需要采用一定的手段去解决这个问题。比特币系统所采用的解决方法是用一种叫做<strong>“工作量证明(PoW)”</strong>的方法去解决这个问题。   </p>
+<h4 id="工作量证明-PoW"><a href="#工作量证明-PoW" class="headerlink" title="工作量证明(PoW)"></a>工作量证明(PoW)</h4><p>上个部分已经谈到，每次新的区块产生就会有一次记账，而每次记账是把上一个区块的Hash值、时间戳、账页信息等作为新信息进行Hash运算并存储在新的区块中。但仅是这样，每个节点显然都能很快完成。为了保证每隔一定的时间内只有一个节点可以记账，必须加大记账的难度。<br>为了加大难度，提出了两个记账的要求：  </p>
+<ul>
+<li>Hash运算的结果必须是以若干个<strong>0</strong>开头  </li>
+<li>在Hash运算的原始信息中加入了一个随机数Nonce  </li>
+</ul>
+<p>所以新的Hash计算公式如下：  </p>
+<p><code>Hash(前一个Hash值＋账页信息＋时间戳＋随机数)＝0000000XXXXX</code>  </p>
+<p>由于Hash运算的初始值只要有一点点变动，就会导致整个结果不一样，所以要获得符合固定格式的Hash结果就需要不断的尝试新的随机数，一旦某个节点最先找到这个随机数，那么该节点就获得了本次记账的权利。<br>故对任意节点而言，事实上就是通过无数次的暴力尝试来找一个符合Hash结果的随机数，不过要想找到这样一个随机数并不容易，我们来简单做个分析。<br>首先Hash值通常由阿拉伯数字0-9、26个大小写字母组成，也就是说Hash值的每一位有62种可能，假定每一个字符出现的概率均等，那么第一位出现“0”的概率是1/62，换言之需要尝试62次才可能出现一次“0”。那么，假定结果需要以n个零开头(n&gt;=1),按照推论大概需要计算62^n次才会出现符合预期的结果，这种计算量是非常巨大的。结合如下某个实际区块信息图：<br><img src="https://ws1.sinaimg.cn/mw690/d41b5259gy1fmwijrv6w8j21rg0wc44x.jpg" alt="">  </p>
+<p>可以看到Hash值开头有18个0，所以需要暴力尝试大约62^18次才可能找到一个符合结果的Nonce，这个计算量简直惊人！面对如此巨大的计算量，所需要的计算资源和电力资源的成本代价也是很大的。因此，目前基本是许多矿工联合起来进行挖矿，收益按每个参加矿工的算力百分比来计算。<br>有了工作量证明，每个节点就能通过暴力尝试来找到合适的随机数进而夺取记账的权利。  </p>
+<h4 id="过程概述"><a href="#过程概述" class="headerlink" title="过程概述"></a>过程概述</h4><p>总结下整个挖矿过程：  </p>
+<ul>
+<li>在进行工作量证明之前，每个参加竞争的节点会提前收集还没有被账本记录的交易信息，并检查每笔交易是否合法(即付款地址是否有足够的余额来支付)，验证每笔交易是否有正确的签名，通过验证之后把交易信息打包，给自己的地址增加奖励(不是真的增加，只有被系统采纳为新区块后，才生效)，如此便构成了一个备用的候选区块。  </li>
+<li>有一个备用的新候选区块之后，节点便开始尝试暴力寻找符合所要求Hash值的Nonce值。  </li>
+<li>一旦某个节点找到合适的Nonce值之后，马上会对全网广播打包备用的候选区块，处在网络中的其他节点收到这个区块，就会立即对其进行验证，一旦验证符合，那么当前验证节点就不在参与竞争，而选择接受这个新区块，将其加入到自己维护的账本中。如果该区块通过了大量节点的验证，那么这个候选区块就会成为被系统采用的新区块，然后所有节点参与到下一个记账的竞争中。  </li>
+</ul>
+<p>上面会存在一个问题，即如果有多个节点都找到了Nonce值，那么系统该如何选择候选区块呢？？这个就涉及到共识以及最长链选择的问题，放在以后研究。</p>
+
+
+<!--<a href="http://yoursite.com/2017/12/29/区块链如何记账/#disqus_thread" class="article-comment-link">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = ''; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+-->
+<div style="display:none">
+<script src="http://s4.cnzz.com/stat.php?id=&web_id=" language="JavaScript"></script>script>
+</div>
+
+
+
+
+
+
+</body>
+</html>
